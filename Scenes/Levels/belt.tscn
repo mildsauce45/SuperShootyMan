@@ -1,0 +1,34 @@
+[gd_scene load_steps=6 format=3 uid="uid://bsrlcjjr4oc8b"]
+
+[ext_resource type="Script" path="res://Scripts/Entities/belt.gd" id="1_faond"]
+[ext_resource type="Texture2D" uid="uid://dgo1fnsshoyl6" path="res://Assets/Sprites/Levels/TestLevel/zoomer.png" id="1_pilug"]
+[ext_resource type="Texture2D" uid="uid://bdp0vjvd3s2lq" path="res://Assets/Sprites/Levels/TestLevel/belt.png" id="2_tjdtp"]
+[ext_resource type="Script" path="res://Scripts/SpeedModifier.gd" id="4_jj8ub"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1qdbe"]
+size = Vector2(16, 16)
+
+[node name="ConveyerBelt" type="StaticBody2D" groups=["Speeders"]]
+collision_layer = 2
+script = ExtResource("1_faond")
+
+[node name="BeltEntrance" type="Sprite2D" parent="."]
+texture = ExtResource("1_pilug")
+
+[node name="Belt" type="Sprite2D" parent="."]
+texture_repeat = 2
+texture = ExtResource("2_tjdtp")
+offset = Vector2(16, 0)
+region_enabled = true
+
+[node name="BeltExit" type="Sprite2D" parent="."]
+texture = ExtResource("1_pilug")
+offset = Vector2(32, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(16, 0)
+shape = SubResource("RectangleShape2D_1qdbe")
+
+[node name="SpeedModifier" type="Node" parent="."]
+script = ExtResource("4_jj8ub")
+multiplier = 1.5

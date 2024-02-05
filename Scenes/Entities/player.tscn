@@ -1,0 +1,136 @@
+[gd_scene load_steps=21 format=3 uid="uid://cdx2ggsguetjt"]
+
+[ext_resource type="Script" path="res://Scripts/Entities/Player.gd" id="1_l8gkv"]
+[ext_resource type="Texture2D" uid="uid://l0326oa2p2j6" path="res://Assets/Sprites/mm-idle.png" id="2_phaw6"]
+[ext_resource type="Texture2D" uid="uid://uywy44fohbrp" path="res://Assets/Sprites/mm-jump.png" id="3_msnaj"]
+[ext_resource type="Texture2D" uid="uid://b0k5eqmsggh0n" path="res://Assets/Sprites/mm-run1.png" id="3_rdswr"]
+[ext_resource type="Texture2D" uid="uid://dpxv2l4rl7bjy" path="res://Assets/Sprites/mm-jump_shoot.png" id="4_b8vx7"]
+[ext_resource type="Texture2D" uid="uid://2l6lj0aqdvc8" path="res://Assets/Sprites/mm-run2.png" id="4_v63b2"]
+[ext_resource type="Texture2D" uid="uid://bweducpvkqe1p" path="res://Assets/Sprites/mm-run3.png" id="5_ag0rb"]
+[ext_resource type="Script" path="res://Scripts/Entities/PlayerAnimationManager.gd" id="6_f2eb3"]
+[ext_resource type="Texture2D" uid="uid://db7338joiuh63" path="res://Assets/Sprites/mm-shoot-run1.png" id="7_mudmr"]
+[ext_resource type="Texture2D" uid="uid://bvgjvor8n5qvg" path="res://Assets/Sprites/mm-shoot-run2.png" id="8_0vie3"]
+[ext_resource type="Shape2D" uid="uid://bandaq3e1xfuy" path="res://Resources/CollisionShapes/player_idle_run_shape.tres" id="8_2sr0v"]
+[ext_resource type="Script" path="res://Scripts/SpeedChecker.gd" id="9_225r2"]
+[ext_resource type="Texture2D" uid="uid://7skbcohkvbpy" path="res://Assets/Sprites/mm-shoot-run3.png" id="9_lyvr5"]
+[ext_resource type="Script" path="res://Scripts/States/Player/PlayerStateMachine.gd" id="14_uj7vx"]
+[ext_resource type="Script" path="res://Scripts/States/Player/Airborne.gd" id="15_liyq1"]
+[ext_resource type="Script" path="res://Scripts/States/Player/Running.gd" id="16_cbrf6"]
+[ext_resource type="Script" path="res://Scripts/Health.gd" id="17_nyjb1"]
+[ext_resource type="Script" path="res://Scripts/DBoost.gd" id="18_8buuq"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7a70s"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_phaw6")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_msnaj")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_b8vx7")
+}],
+"loop": true,
+"name": &"jump_shoot",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_rdswr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_v63b2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_ag0rb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_v63b2")
+}],
+"loop": true,
+"name": &"run",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_mudmr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_0vie3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_lyvr5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_0vie3")
+}],
+"loop": true,
+"name": &"run_shoot",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hcpav"]
+
+[node name="Player" type="CharacterBody2D"]
+collision_mask = 6
+script = ExtResource("1_l8gkv")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_7a70s")
+animation = &"idle"
+autoplay = "idle"
+script = ExtResource("6_f2eb3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 2)
+shape = ExtResource("8_2sr0v")
+
+[node name="ShapeCast2D" type="ShapeCast2D" parent="."]
+visible = false
+shape = SubResource("RectangleShape2D_hcpav")
+target_position = Vector2(0, 3)
+collision_mask = 2
+
+[node name="SpeedChecker" type="Node" parent="."]
+script = ExtResource("9_225r2")
+
+[node name="ShootSpawn" type="Node2D" parent="."]
+position = Vector2(13, -1)
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_mask = 6
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 2)
+shape = ExtResource("8_2sr0v")
+
+[node name="PlayerStateMachine" type="Node" parent="." node_paths=PackedStringArray("initialState")]
+script = ExtResource("14_uj7vx")
+initialState = NodePath("Airborne")
+
+[node name="Airborne" type="Node" parent="PlayerStateMachine"]
+script = ExtResource("15_liyq1")
+
+[node name="Running" type="Node" parent="PlayerStateMachine"]
+script = ExtResource("16_cbrf6")
+
+[node name="Health" type="Node" parent="."]
+script = ExtResource("17_nyjb1")
+maxHealth = 28
+
+[node name="DBoost" type="Node" parent="."]
+script = ExtResource("18_8buuq")
+baseVelocity = Vector2(-2000, -175)
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_entered"]

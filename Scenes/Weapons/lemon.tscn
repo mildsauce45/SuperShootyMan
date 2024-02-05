@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://c82ycw6yqrj30"]
+
+[ext_resource type="Script" path="res://Scripts/Weapons/lemon.gd" id="1_6d1b3"]
+[ext_resource type="Texture2D" uid="uid://dy7hlvr8ntpto" path="res://Assets/Sprites/lemon.png" id="2_jnvd2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bj15d"]
+size = Vector2(8, 6)
+
+[node name="Lemon" type="Area2D"]
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("1_6d1b3")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_jnvd2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_bj15d")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(2.38419e-07, 2.38419e-07)
+scale = Vector2(0.5, 0.4)
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_screen_exited"]

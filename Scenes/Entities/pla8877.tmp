@@ -1,0 +1,67 @@
+[gd_scene load_steps=11 format=3 uid="uid://cdx2ggsguetjt"]
+
+[ext_resource type="Script" path="res://Scripts/Entities/Player.gd" id="1_l8gkv"]
+[ext_resource type="Texture2D" uid="uid://l0326oa2p2j6" path="res://Assets/Sprites/mm-idle.png" id="2_phaw6"]
+[ext_resource type="Texture2D" uid="uid://uywy44fohbrp" path="res://Assets/Sprites/mm-jump.png" id="3_msnaj"]
+[ext_resource type="Texture2D" uid="uid://b0k5eqmsggh0n" path="res://Assets/Sprites/mm-run1.png" id="3_rdswr"]
+[ext_resource type="Texture2D" uid="uid://2l6lj0aqdvc8" path="res://Assets/Sprites/mm-run2.png" id="4_v63b2"]
+[ext_resource type="Texture2D" uid="uid://bweducpvkqe1p" path="res://Assets/Sprites/mm-run3.png" id="5_ag0rb"]
+[ext_resource type="Script" path="res://Scripts/Entities/PlayerAnimationManager.gd" id="6_f2eb3"]
+[ext_resource type="Shape2D" uid="uid://bandaq3e1xfuy" path="res://Resources/CollisionShapes/player_idle_run_shape.tres" id="8_2sr0v"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7a70s"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_phaw6")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_msnaj")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_rdswr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_v63b2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_ag0rb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_v63b2")
+}],
+"loop": true,
+"name": &"run",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hcpav"]
+
+[node name="Player" type="CharacterBody2D"]
+collision_mask = 2
+script = ExtResource("1_l8gkv")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_7a70s")
+animation = &"run"
+autoplay = "idle"
+script = ExtResource("6_f2eb3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 2)
+shape = ExtResource("8_2sr0v")
+
+[node name="ShapeCast2D" type="ShapeCast2D" parent="."]
+shape = SubResource("RectangleShape2D_hcpav")
+target_position = Vector2(0, 3)
+collision_mask = 2

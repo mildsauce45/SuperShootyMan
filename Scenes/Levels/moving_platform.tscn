@@ -1,0 +1,81 @@
+[gd_scene load_steps=11 format=3 uid="uid://ba72moxy6uwai"]
+
+[ext_resource type="Script" path="res://Scripts/Entities/MovingPlatform.gd" id="1_bjodu"]
+[ext_resource type="Texture2D" uid="uid://cuih0c57keufm" path="res://Assets/Sprites/moving-platform1.png" id="1_enknv"]
+[ext_resource type="Texture2D" uid="uid://bhshfnu8q1rkn" path="res://Assets/Sprites/moving-platform2.png" id="2_764wk"]
+[ext_resource type="Script" path="res://Scripts/SpeedModifier.gd" id="3_ne3ie"]
+[ext_resource type="Script" path="res://Scripts/States/MovingPlatform/MovingPlatformStateMachine.gd" id="5_50yhq"]
+[ext_resource type="Script" path="res://Scripts/States/MovingPlatform/Idle.gd" id="6_r83fr"]
+[ext_resource type="Script" path="res://Scripts/States/MovingPlatform/Moving.gd" id="7_gopgu"]
+[ext_resource type="Script" path="res://Scripts/States/MovingPlatform/Wait.gd" id="8_0hw2b"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ova3m"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_enknv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_764wk")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gvw4o"]
+size = Vector2(22, 14)
+
+[node name="MovingPlatform" type="StaticBody2D"]
+collision_layer = 2
+script = ExtResource("1_bjodu")
+speed = 75.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_ova3m")
+autoplay = "default"
+frame_progress = 0.0612306
+
+[node name="SpeedModifier" type="Node" parent="."]
+script = ExtResource("3_ne3ie")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_gvw4o")
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+position = Vector2(-11, -7)
+target_position = Vector2(0, -2)
+collide_with_areas = true
+
+[node name="RayCast2D2" type="RayCast2D" parent="."]
+position = Vector2(-6, -7)
+target_position = Vector2(0, -2)
+collide_with_areas = true
+
+[node name="RayCast2D3" type="RayCast2D" parent="."]
+position = Vector2(0, -7)
+target_position = Vector2(0, -2)
+collide_with_areas = true
+
+[node name="RayCast2D4" type="RayCast2D" parent="."]
+position = Vector2(6, -7)
+target_position = Vector2(0, -2)
+collide_with_areas = true
+
+[node name="RayCast2D5" type="RayCast2D" parent="."]
+position = Vector2(11, -7)
+target_position = Vector2(0, -2)
+collide_with_areas = true
+
+[node name="MovingPlatformStateMachine" type="Node" parent="." node_paths=PackedStringArray("initialState")]
+script = ExtResource("5_50yhq")
+initialState = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="MovingPlatformStateMachine"]
+script = ExtResource("6_r83fr")
+
+[node name="Moving" type="Node" parent="MovingPlatformStateMachine"]
+script = ExtResource("7_gopgu")
+
+[node name="Wait" type="Node" parent="MovingPlatformStateMachine"]
+script = ExtResource("8_0hw2b")
