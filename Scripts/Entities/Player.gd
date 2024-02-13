@@ -44,8 +44,8 @@ func _check_for_weapon_inputs():
 func _on_area_entered(area):
 	if area is Enemy:
 		_contact_enemy(area as Enemy)
-	elif area is DirectionInverter:
-		direction = direction * -1
+	elif area is DirectionChanger:
+		direction = (area as DirectionChanger).get_direction(direction)
 		dashCooldown = 0
 			
 func _contact_enemy(enemy: Enemy):
