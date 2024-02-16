@@ -11,8 +11,8 @@ func _process(_delta):
 		return
 		
 	if shouldCameraSync:
-		global_position.x = syncNode.global_position.x
+		var target = Vector2(syncNode.global_position)
 		
-		global_position.y = syncNode.global_position.y
+		global_position = global_position.lerp(target, 0.2)
 		if global_position.y > maxCameraY:
 			global_position.y = maxCameraY

@@ -19,4 +19,4 @@ func reduce_dash_cooldown(isDashing: bool, delta: float):
 
 # TODO: i dont like this, i think the enter and/or exit functions should set animations directly, but the blended shoot animations complicate that
 func update_animation():
-	player.animatedSpriteController.PlayAnimation(player.velocity, player.direction)
+	player.animatedSpriteController.PlayAnimation(player.velocity)

@@ -3,7 +3,7 @@
 [ext_resource type="TileSet" uid="uid://cu8dfeq6o5smy" path="res://Resources/TileSets/test_tile_set.tres" id="1_ebywy"]
 [ext_resource type="PackedScene" uid="uid://cdx2ggsguetjt" path="res://Scenes/Entities/player.tscn" id="2_fh5tb"]
 [ext_resource type="Script" path="res://Scripts/CameraFollow.gd" id="2_osi38"]
-[ext_resource type="PackedScene" uid="uid://bd2i4s7f8pni4" path="res://Scenes/Levels/direction_inverter.tscn" id="3_f1m4h"]
+[ext_resource type="PackedScene" uid="uid://eaie8lo3k7uv" path="res://Scenes/Levels/direction_changer.tscn" id="4_bex54"]
 
 [node name="TestBossArena" type="Node2D"]
 
@@ -22,11 +22,13 @@ shouldCameraSync = true
 [node name="Player" parent="." instance=ExtResource("2_fh5tb")]
 position = Vector2(43.4737, -37.7527)
 
-[node name="DirectionInverter" parent="." instance=ExtResource("3_f1m4h")]
+[node name="DirectionChanger" parent="." instance=ExtResource("4_bex54")]
 position = Vector2(8, 8)
+direction = 2
 
-[node name="DirectionInverter2" parent="." instance=ExtResource("3_f1m4h")]
+[node name="DirectionChanger2" parent="." instance=ExtResource("4_bex54")]
 position = Vector2(168, 8)
 
-[node name="DirectionInverter3" parent="." instance=ExtResource("3_f1m4h")]
+[node name="DirectionChanger3" parent="." instance=ExtResource("4_bex54")]
 position = Vector2(408, 8)
+direction = 1

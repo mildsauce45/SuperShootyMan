@@ -4,6 +4,9 @@ class_name Player
 const SPEED = 4500.0
 const JUMP_VELOCITY = -310.0
 
+const LEFT = Vector2(-1, 1)
+const RIGHT = Vector2.ONE
+
 var dashCooldown: float = 0
 var allowCoyoteTime: bool = false
 
@@ -11,12 +14,12 @@ var allowCoyoteTime: bool = false
 #or at least a complex entity like a player or enemy, speed
 var direction: int = 1
 
-const LEMON_SCENE = preload("res://Scenes/Weapons/lemon.tscn")
+var equipped_weapon: Weapon = preload("res://Resources/Weapons/Buster.tres")
 
 @onready var animatedSpriteController = $AnimatedSprite2D as PlayerAnimationController
 @onready var shapeCast = $ShapeCast2D
 @onready var speedChecker = $SpeedChecker as SpeedChecker
-@onready var shootSpawn = $ShootSpawn
+@onready var shootSpawn = %ShootSpawn
 @onready var health = $Health as Health
 @onready var dboost = $DBoost as DBoost
 
@@ -35,18 +38,15 @@ func check_for_speeders():
 	
 func _check_for_weapon_inputs():
 	if Input.is_action_just_pressed("shoot"):
-		var lemon = LEMON_SCENE.instantiate()
-		lemon.direction = animatedSpriteController.scale.x
-		lemon.global_position = shootSpawn.global_position
-		get_tree().root.add_child(lemon)
+		var projectile = _spawn_weapon_projectile()
+		get_tree().root.add_child(projectile)
 		animatedSpriteController.isShooting = true
 
 func _on_area_entered(area):
 	if area is Enemy:
 		_contact_enemy(area as Enemy)
-	elif area is DirectionInverter:
-		direction = direction * -1
-		dashCooldown = 0
+	elif area is DirectionChanger:
+		_direction_switch(area as DirectionChanger)
 			
 func _contact_enemy(enemy: Enemy):
 	if !dboost.is_active():
@@ -60,4 +60,23 @@ func _contact_enemy(enemy: Enemy):
 			dboost.start()
 			velocity.y = dboost.baseVelocity.y
 			velocity.x = dboost.baseVelocity.x * direction
-			
+		
+func _spawn_weapon_projectile():
+	var projectile = equipped_weapon.projectile.instantiate()
+	projectile.direction = direction
+	projectile.global_position = shootSpawn.global_position
+	return projectile
+
+func _direction_switch(changer: DirectionChanger):
+	dashCooldown = 0
+	var newDirection = changer.get_direction(direction)
+	if newDirection != direction:
+		# this is super weird but i found the solution here:
+		# https://forum.godotengine.org/t/why-my-character-scale-keep-changing/13909/4
+		if newDirection < 0:
+			scale.y = -1
+			rotation_degrees = 180
+		else:
+			scale.y = 1
+			rotation_degrees = 0
+	direction = newDirection
