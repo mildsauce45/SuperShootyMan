@@ -106,6 +106,8 @@ collision_mask = 2
 script = ExtResource("9_225r2")
 
 [node name="ShootSpawn" type="Node2D" parent="."]
+unique_name_in_owner = true
+visible = false
 position = Vector2(13, -1)
 
 [node name="Area2D" type="Area2D" parent="."]

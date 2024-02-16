@@ -24,7 +24,7 @@ func _process(delta):
 		_shootAnimationHeldTime = shootHoldTime
 		isShooting = false
 
-func PlayAnimation(velocity: Vector2, direction: int):
+func PlayAnimation(velocity: Vector2):
 	if not get_parent().is_on_floor():
 		play("jump_shoot" if _shootAnimationHeldTime > 0 else "jump")
 		_shootSpawn.position = jumpShootSpawn
@@ -35,7 +35,4 @@ func PlayAnimation(velocity: Vector2, direction: int):
 		play("idle")
 		return
 	
-	if sign(scale.x) != sign(direction):
-		scale.x = direction	
-		
 	play("run_shoot" if _shootAnimationHeldTime > 0 else "run")
