@@ -27,7 +27,7 @@ func physics_update(delta: float):
 	
 	if player.position.y > deathYValue:
 		player.health.die()
-		get_tree().create_timer(1.5).timeout.connect(get_tree().reload_current_scene)
+		player.player_died()
 	elif player.is_on_floor():
 		Transition.emit(self, "running")
 		player.dboost.override_velocity = false

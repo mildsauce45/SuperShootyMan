@@ -1,10 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://dfjop3mkp6sfl"]
+[gd_scene load_steps=9 format=3 uid="uid://dfjop3mkp6sfl"]
 
 [ext_resource type="TileSet" uid="uid://cu8dfeq6o5smy" path="res://Resources/TileSets/test_tile_set.tres" id="1_cqbp8"]
 [ext_resource type="PackedScene" uid="uid://cdx2ggsguetjt" path="res://Scenes/Entities/player.tscn" id="4_pe5rk"]
 [ext_resource type="Script" path="res://Scripts/CameraFollow.gd" id="6_gt6di"]
 [ext_resource type="PackedScene" uid="uid://bsrlcjjr4oc8b" path="res://Scenes/Levels/belt.tscn" id="7_0q1n5"]
+[ext_resource type="PackedScene" uid="uid://mteotcn10e3n" path="res://Scenes/Levels/checkpoint.tscn" id="7_qp5tr"]
 [ext_resource type="PackedScene" uid="uid://ba72moxy6uwai" path="res://Scenes/Levels/moving_platform.tscn" id="8_1eqgb"]
+[ext_resource type="Script" path="res://Scripts/Entities/LevelManager.gd" id="8_r3sob"]
 [ext_resource type="PackedScene" uid="uid://cag2uvl4au8hl" path="res://Scenes/Entities/fan_fiend.tscn" id="10_wrxew"]
 
 [node name="Main" type="Node"]
@@ -37,5 +39,13 @@ target = Vector2(850, -56)
 position = Vector2(910, -56)
 target = Vector2(910, -200)
 
+[node name="Collision" parent="Elements" instance=ExtResource("7_qp5tr")]
+position = Vector2(432, -16)
+
 [node name="FanFiend" parent="." instance=ExtResource("10_wrxew")]
 position = Vector2(294, -49)
+
+[node name="LevelManager" type="Node" parent="." node_paths=PackedStringArray("player", "levelElements")]
+script = ExtResource("8_r3sob")
+player = NodePath("../Player")
+levelElements = NodePath("../Elements")

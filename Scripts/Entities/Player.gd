@@ -4,8 +4,7 @@ class_name Player
 const SPEED = 4500.0
 const JUMP_VELOCITY = -310.0
 
-const LEFT = Vector2(-1, 1)
-const RIGHT = Vector2.ONE
+signal Died
 
 var dashCooldown: float = 0
 var allowCoyoteTime: bool = false
@@ -35,7 +34,10 @@ func _process(_delta):
 
 func check_for_speeders():
 	speedChecker.check_for_speeders(shapeCast)
-	
+
+func player_died():
+	Died.emit(self)
+
 func _check_for_weapon_inputs():
 	if Input.is_action_just_pressed("shoot"):
 		var projectile = _spawn_weapon_projectile()
@@ -47,14 +49,15 @@ func _on_area_entered(area):
 		_contact_enemy(area as Enemy)
 	elif area is DirectionChanger:
 		_direction_switch(area as DirectionChanger)
-			
+	elif area is Checkpoint:
+		(area as Checkpoint).on_player_entered()
+
 func _contact_enemy(enemy: Enemy):
 	if !dboost.is_active():
 		health.takeDamage(enemy.contactDamage)
 		print("hit enemy. remaining health: " + str(health.currentHealth))
 		if health.is_dead():
-			# TODO: we'll want to return to a checkpoint eventually
-			get_tree().reload_current_scene()
+			player_died()
 		else:
 			dashCooldown = 0
 			dboost.start()
