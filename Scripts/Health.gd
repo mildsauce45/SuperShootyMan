@@ -6,7 +6,7 @@ class_name Health
 var currentHealth = 1
 
 func _ready():
-	currentHealth = maxHealth
+	reset()
 
 func heal(amount: int):
 	currentHealth += amount
@@ -22,3 +22,6 @@ func is_dead():
 	
 func die():
 	currentHealth = 0
+	
+func reset():
+	currentHealth = maxHealth
