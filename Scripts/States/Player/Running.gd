@@ -32,14 +32,17 @@ func _handle_dboost(delta: float):
 func _handle_standard_inputs(delta:float):
 	var isDashing = get_is_dashing()
 	
+	if not isDashing:
+		clear_dash_properties()
+	
 	if Input.is_action_just_pressed("dash"):
 		set_dash_properties()
 		isDashing = true
 
-	if not isDashing and Input.is_action_just_pressed("jump"):		
+	if not isDashing and Input.is_action_just_pressed("jump"):
 		player.velocity.y = player.JUMP_VELOCITY
 		allowCoyoteTime = false
 		
-	player.velocity.x = player.SPEED * delta * player.speedChecker.speederMultiplier * (player.dashMultipler if isDashing else 1.0) * player.direction
+	player.velocity.x = player.speedChecker.get_speed(delta)
 		
 	reduce_dash_cooldown(isDashing, delta)

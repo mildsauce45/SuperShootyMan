@@ -42,6 +42,7 @@ func _handle_standard_inputs(delta: float):
 	# add gravity
 	if not isDashing:
 		player.velocity.y += gravity * delta
+		clear_dash_properties()
 	
 	if Input.is_action_just_pressed("dash") and not isDashing:
 		set_dash_properties()
@@ -53,7 +54,7 @@ func _handle_standard_inputs(delta: float):
 		player.velocity.y = player.JUMP_VELOCITY
 		allowCoyoteTime = false
 		
-	player.velocity.x = player.SPEED * delta * player.speedChecker.speederMultiplier * (player.dashMultipler if isDashing else 1.0) * player.direction
+	player.velocity.x = player.speedChecker.get_speed(delta)
 	
 	reduce_dash_cooldown(isDashing, delta)
 	

@@ -1,6 +1,8 @@
 extends "res://Scripts/States/State.gd"
 class_name PlayerState
 
+const DASHING = "dashing"
+
 var player: Player
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
@@ -10,6 +12,10 @@ func get_is_dashing():
 func set_dash_properties():
 	player.dashCooldown = player.dashLength
 	player.velocity.y = 0
+	player.speedChecker.add_modifier(DASHING, player.dashMultiplier)
+	
+func clear_dash_properties():
+	player.speedChecker.remove_modifer(DASHING)
 	
 func reduce_dash_cooldown(isDashing: bool, delta: float):
 	if isDashing:

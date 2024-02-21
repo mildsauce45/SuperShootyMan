@@ -1,5 +1,4 @@
 extends StaticBody2D
-
 class_name MovingPlatform
 
 enum MOVE_TRIGGER { Always, PlayerStanding }

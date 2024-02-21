@@ -9,10 +9,6 @@ signal Died
 var dashCooldown: float = 0
 var allowCoyoteTime: bool = false
 
-#TODO: Dont like this on the player. Things like this should be in at responsible for determining an object's,
-#or at least a complex entity like a player or enemy, speed
-var direction: int = 1
-
 var equipped_weapon: Weapon = preload("res://Resources/Weapons/Buster.tres")
 
 @onready var animatedSpriteController = $AnimatedSprite2D as PlayerAnimationController
@@ -23,7 +19,7 @@ var equipped_weapon: Weapon = preload("res://Resources/Weapons/Buster.tres")
 @onready var dboost = $DBoost as DBoost
 
 @export_group("Dashing")
-@export var dashMultipler: float = 3.5
+@export var dashMultiplier: float = 3.5
 @export var dashLength: float = 0.2
 
 @export_group("Jumping")
@@ -62,24 +58,24 @@ func _contact_enemy(enemy: Enemy):
 			dashCooldown = 0
 			dboost.start()
 			velocity.y = dboost.baseVelocity.y
-			velocity.x = dboost.baseVelocity.x * direction
+			velocity.x = dboost.baseVelocity.x * speedChecker.direction
 		
 func _spawn_weapon_projectile():
 	var projectile = equipped_weapon.projectile.instantiate()
-	projectile.direction = direction
+	projectile.direction = speedChecker.direction
 	projectile.global_position = shootSpawn.global_position
 	return projectile
 
 func _direction_switch(changer: DirectionChanger):
 	dashCooldown = 0
-	var newDirection = changer.get_direction(direction)
-	if newDirection != direction:
-		# this is super weird but i found the solution here:
-		# https://forum.godotengine.org/t/why-my-character-scale-keep-changing/13909/4
-		if newDirection < 0:
-			scale.y = -1
-			rotation_degrees = 180
-		else:
-			scale.y = 1
-			rotation_degrees = 0
-	direction = newDirection
+	
+	# these are super weird but i found the solution here:
+	# https://forum.godotengine.org/t/why-my-character-scale-keep-changing/13909/4
+	var flip_left = func():
+		scale.y = -1
+		rotation_degrees = 180
+	var flip_right = func():
+		scale.y = 1
+		rotation_degrees = 0
+	
+	speedChecker.change_direction(changer, flip_left, flip_right)

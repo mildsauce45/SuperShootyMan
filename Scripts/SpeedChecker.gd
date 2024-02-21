@@ -3,18 +3,41 @@ class_name SpeedChecker
 
 const STANDARD_RUN_SPEED = 4500.0
 
-var speederMultiplier: float = 1
+var direction: int = 1
 
 var _speed_modifiers = { }
 
-func get_speed(dashMultiplier):
-	var val = STANDARD_RUN_SPEED
-	#player.velocity.x = player.SPEED * delta * player.speedChecker.speederMultiplier * (player.dashMultipler if isDashing else 1.0)
+func add_modifier(key: String, amount: float):
+	_speed_modifiers[key] = amount
+	
+func remove_modifer(key: String):
+	if _speed_modifiers.has(key):
+		_speed_modifiers.erase(key)
 
+func get_speed(delta: float):
+	var val = STANDARD_RUN_SPEED
+	
+	var speederMultiplier = 1
+	for key in _speed_modifiers:
+		speederMultiplier *= _speed_modifiers[key]
+
+	return val * delta * speederMultiplier * direction
+
+func change_direction(changer: DirectionChanger, change_to_left: Callable, change_to_right: Callable):
+	var newDirection = changer.get_direction(direction)
+	if newDirection != direction:
+		if newDirection < 0:
+			change_to_left.call()
+		else:
+			change_to_right.call()
+	direction = newDirection
+
+# TODO: Get rid of this
 func check_for_speeders(shapeCast: ShapeCast2D):
-	speederMultiplier = 1
+	var speederMultiplier = 1
 	if shapeCast.is_colliding():
 		var collider = shapeCast.get_collider(0)
-		if collider.is_in_group("Speeders"):			
+		if collider.is_in_group("Speeders"):
 			var multiplerNode = (collider as Node).find_child("SpeedModifier") as SpeedModifier
 			speederMultiplier = multiplerNode.multiplier
+	add_modifier("ground_objects", speederMultiplier)
