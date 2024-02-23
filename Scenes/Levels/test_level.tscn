@@ -43,7 +43,7 @@ target = Vector2(910, -200)
 position = Vector2(568, -56)
 beltLength = 7
 
-[node name="Collision" parent="Elements" instance=ExtResource("7_qp5tr")]
+[node name="Checkpoint" parent="Elements" instance=ExtResource("7_qp5tr")]
 position = Vector2(432, -16)
 
 [node name="FanFiend" parent="." instance=ExtResource("10_wrxew")]
