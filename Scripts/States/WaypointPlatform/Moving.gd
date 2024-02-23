@@ -1,4 +1,4 @@
-extends "res://Scripts/States/MovingPlatform/PlatformState.gd"
+extends "res://Scripts/States/WaypointPlatform/WaypointPlatformState.gd"
 
 var UNASSIGNED = Vector2(42.42, 42.42)
 
@@ -14,12 +14,12 @@ func enter():
 		currentTarget = platform.target
 
 func update(delta: float):
-	if !handlePlayerCollisions() && platform.trigger == MovingPlatform.MOVE_TRIGGER.PlayerStanding:
+	if not is_player_on_platform() && platform.trigger == WaypointPlatform.MOVE_TRIGGER.PlayerStanding:
 		Transition.emit(self, "idle");
 		return
-	
+
 	platform.global_position = platform.global_position.move_toward(currentTarget, delta * platform.speed)
-	
+
 	if platform.global_position.distance_to(currentTarget) < 0.25:
 		platform.global_position = currentTarget
 		currentTarget = initialPosition if platform.global_position == platform.target else platform.target

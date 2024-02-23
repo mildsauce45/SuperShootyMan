@@ -1,4 +1,4 @@
-extends "res://Scripts/States/MovingPlatform/PlatformState.gd"
+extends "res://Scripts/States/WaypointPlatform/WaypointPlatformState.gd"
 
 var waitedFor: float
 

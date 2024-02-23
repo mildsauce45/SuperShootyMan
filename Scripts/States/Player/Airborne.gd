@@ -8,9 +8,6 @@ func enter():
 	allowCoyoteTime = player.allowCoyoteTime
 	_coyoteTimeTimer = player.coyoteTime
 
-func update(_delta: float):
-	player.check_for_speeders()
-
 func physics_update(delta: float):
 	if player.health.is_dead():
 		return
@@ -42,6 +39,7 @@ func _handle_standard_inputs(delta: float):
 	# add gravity
 	if not isDashing:
 		player.velocity.y += gravity * delta
+		clear_dash_properties()
 	
 	if Input.is_action_just_pressed("dash") and not isDashing:
 		set_dash_properties()
@@ -50,10 +48,10 @@ func _handle_standard_inputs(delta: float):
 	if not isDashing and Input.is_action_just_released("jump") and player.velocity.y < 0:
 		player.velocity.y *= 0.5
 	elif not isDashing and Input.is_action_just_pressed("jump") and _can_coyote_jump():
-		player.velocity.y = player.JUMP_VELOCITY
+		player.velocity.y = player.speedChecker.STANDARD_JUMP_VELOCITY
 		allowCoyoteTime = false
 		
-	player.velocity.x = player.SPEED * delta * player.speedChecker.speederMultiplier * (player.dashMultipler if isDashing else 1.0) * player.direction
+	player.velocity.x = player.speedChecker.get_speed(delta)
 	
 	reduce_dash_cooldown(isDashing, delta)
 	

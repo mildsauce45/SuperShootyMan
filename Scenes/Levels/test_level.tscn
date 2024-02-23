@@ -3,10 +3,10 @@
 [ext_resource type="TileSet" uid="uid://cu8dfeq6o5smy" path="res://Resources/TileSets/test_tile_set.tres" id="1_cqbp8"]
 [ext_resource type="PackedScene" uid="uid://cdx2ggsguetjt" path="res://Scenes/Entities/player.tscn" id="4_pe5rk"]
 [ext_resource type="Script" path="res://Scripts/CameraFollow.gd" id="6_gt6di"]
-[ext_resource type="PackedScene" uid="uid://bsrlcjjr4oc8b" path="res://Scenes/Levels/belt.tscn" id="7_0q1n5"]
 [ext_resource type="PackedScene" uid="uid://mteotcn10e3n" path="res://Scenes/Levels/checkpoint.tscn" id="7_qp5tr"]
-[ext_resource type="PackedScene" uid="uid://ba72moxy6uwai" path="res://Scenes/Levels/moving_platform.tscn" id="8_1eqgb"]
 [ext_resource type="Script" path="res://Scripts/Entities/LevelManager.gd" id="8_r3sob"]
+[ext_resource type="PackedScene" uid="uid://bsst8g1p1hv4g" path="res://Scenes/Levels/speed_pad.tscn" id="9_ao577"]
+[ext_resource type="PackedScene" uid="uid://dudbd73apxj66" path="res://Scenes/Levels/waypoint_platform.tscn" id="9_ng6fv"]
 [ext_resource type="PackedScene" uid="uid://cag2uvl4au8hl" path="res://Scenes/Entities/fan_fiend.tscn" id="10_wrxew"]
 
 [node name="Main" type="Node"]
@@ -27,20 +27,28 @@ position = Vector2(18, -28)
 
 [node name="Elements" type="Node" parent="."]
 
-[node name="ConveyerBelt" parent="Elements" instance=ExtResource("7_0q1n5")]
-position = Vector2(568, -56)
-beltLength = 7
+[node name="waypoint_platform" parent="Elements" instance=ExtResource("9_ng6fv")]
+position = Vector2(120, -40)
+target = Vector2(119, -120)
 
-[node name="MovingPlatform" parent="Elements" groups=["Speeders"] instance=ExtResource("8_1eqgb")]
-position = Vector2(752, -56)
+[node name="waypoint_platform2" parent="Elements" instance=ExtResource("9_ng6fv")]
+position = Vector2(750, -56)
 target = Vector2(850, -56)
 
-[node name="MovingPlatform2" parent="Elements" groups=["Speeders"] instance=ExtResource("8_1eqgb")]
+[node name="waypoint_platform3" parent="Elements" instance=ExtResource("9_ng6fv")]
 position = Vector2(910, -56)
 target = Vector2(910, -200)
 
-[node name="Collision" parent="Elements" instance=ExtResource("7_qp5tr")]
+[node name="Checkpoint" parent="Elements" instance=ExtResource("7_qp5tr")]
 position = Vector2(432, -16)
+
+[node name="SpeedPad" parent="Elements" instance=ExtResource("9_ao577")]
+position = Vector2(950, -200)
+beltLength = 2
+
+[node name="SpeedPad2" parent="Elements" instance=ExtResource("9_ao577")]
+position = Vector2(568, -56)
+beltLength = 7
 
 [node name="FanFiend" parent="." instance=ExtResource("10_wrxew")]
 position = Vector2(294, -49)
