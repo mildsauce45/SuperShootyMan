@@ -14,7 +14,7 @@ func enter():
 		currentTarget = platform.target
 		
 func update(delta: float):
-	if not is_player_on_platform() && platform.trigger == MovingPlatform.MOVE_TRIGGER.PlayerStanding:
+	if not is_player_on_platform() && platform.trigger == WaypointPlatform.MOVE_TRIGGER.PlayerStanding:
 		Transition.emit(self, "idle");
 		return
 	
