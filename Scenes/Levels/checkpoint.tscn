@@ -4,7 +4,7 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lj7fc"]
 
-[node name="Collision" type="Area2D"]
+[node name="Checkpoint" type="Area2D"]
 scale = Vector2(0.5, 2)
 collision_layer = 2
 script = ExtResource("1_jpo7y")

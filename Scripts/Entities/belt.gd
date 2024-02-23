@@ -19,7 +19,7 @@ func _ready():
 	beltSprite.position = Vector2(PIXEL_SIZE * beltLength / 2.0 - PIXEL_SIZE / 2.0, 0)
 	
 	var shape = RectangleShape2D.new()
-	shape.size = Vector2(PIXEL_SIZE * 2 + PIXEL_SIZE * beltLength, PIXEL_SIZE)	
+	shape.size = Vector2(PIXEL_SIZE * 2 + PIXEL_SIZE * beltLength, PIXEL_SIZE)
 	collisionShape.shape = shape
 	collisionShape.position = Vector2(PIXEL_SIZE * beltLength / 2.0, 0)
 	

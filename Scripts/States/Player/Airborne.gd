@@ -51,7 +51,7 @@ func _handle_standard_inputs(delta: float):
 	if not isDashing and Input.is_action_just_released("jump") and player.velocity.y < 0:
 		player.velocity.y *= 0.5
 	elif not isDashing and Input.is_action_just_pressed("jump") and _can_coyote_jump():
-		player.velocity.y = player.JUMP_VELOCITY
+		player.velocity.y = player.speedChecker.STANDARD_JUMP_VELOCITY
 		allowCoyoteTime = false
 		
 	player.velocity.x = player.speedChecker.get_speed(delta)

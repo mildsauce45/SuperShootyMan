@@ -1,0 +1,74 @@
+[gd_scene load_steps=13 format=3 uid="uid://dudbd73apxj66"]
+
+[ext_resource type="Texture2D" uid="uid://cuih0c57keufm" path="res://Assets/Sprites/moving-platform1.png" id="1_oc6bh"]
+[ext_resource type="Script" path="res://Scripts/Entities/waypoint_platform.gd" id="1_q8her"]
+[ext_resource type="Texture2D" uid="uid://bhshfnu8q1rkn" path="res://Assets/Sprites/moving-platform2.png" id="2_1al8w"]
+[ext_resource type="Script" path="res://Scripts/SpeedCollider.gd" id="4_epuwo"]
+[ext_resource type="Script" path="res://Scripts/SpeedModifier.gd" id="4_knoj8"]
+[ext_resource type="Script" path="res://Scripts/States/WaypointPlatform/WaypointPlatformStateMachine.gd" id="5_u5ppq"]
+[ext_resource type="Script" path="res://Scripts/States/WaypointPlatform/Idle.gd" id="7_7e68j"]
+[ext_resource type="Script" path="res://Scripts/States/WaypointPlatform/Moving.gd" id="8_cj044"]
+[ext_resource type="Script" path="res://Scripts/States/WaypointPlatform/Wait.gd" id="9_las1r"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_30kks"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_oc6bh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_1al8w")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_syckt"]
+size = Vector2(22, 14)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fqlvv"]
+size = Vector2(22, 5)
+
+[node name="waypoint_platform" type="Node2D"]
+script = ExtResource("1_q8her")
+
+[node name="Platform" type="StaticBody2D" parent="."]
+collision_layer = 2
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Platform"]
+sprite_frames = SubResource("SpriteFrames_30kks")
+autoplay = "default"
+frame = 1
+frame_progress = 0.94579
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platform"]
+shape = SubResource("RectangleShape2D_syckt")
+
+[node name="Collider" type="Area2D" parent="."]
+collision_layer = 2
+script = ExtResource("4_epuwo")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collider"]
+position = Vector2(0, -5.5)
+shape = SubResource("RectangleShape2D_fqlvv")
+
+[node name="SpeedModifier" type="Node" parent="Collider"]
+unique_name_in_owner = true
+script = ExtResource("4_knoj8")
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initialState")]
+script = ExtResource("5_u5ppq")
+initialState = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource("7_7e68j")
+
+[node name="Moving" type="Node" parent="StateMachine"]
+script = ExtResource("8_cj044")
+
+[node name="Wait" type="Node" parent="StateMachine"]
+script = ExtResource("9_las1r")
+
+[connection signal="_speed_collider_entered" from="Collider" to="." method="_on_speed_collider_entered"]
+[connection signal="_speed_collider_exited" from="Collider" to="." method="_on_speed_collider_exited"]

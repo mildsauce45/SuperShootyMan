@@ -2,6 +2,7 @@ extends Node
 class_name SpeedChecker
 
 const STANDARD_RUN_SPEED = 4500.0
+const STANDARD_JUMP_VELOCITY = -310.0
 
 var direction: int = 1
 

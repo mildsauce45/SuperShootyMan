@@ -14,7 +14,7 @@ func _ready():
 		if child is Checkpoint:
 			child.Entered.connect(_on_checkpoint_entered) 
 	
-func _on_player_death(player):
+func _on_player_death(_player):
 	#TODO: Play a sound, maybe some particles as well
 	get_tree().create_timer(1.5).timeout.connect(_return_to_last_checkpoint)
 
@@ -26,7 +26,7 @@ func _return_to_last_checkpoint():
 		print("no set checkpoint, resetting scene")
 		get_tree().reload_current_scene()
 
-func _on_checkpoint_entered(checkpoint: Checkpoint, position: Vector2):
+func _on_checkpoint_entered(_checkpoint: Checkpoint, position: Vector2):
 	if _last_checkpoint != position:
 		_last_checkpoint = position
 		# TODO: Might be nice to trigger the particle effects here

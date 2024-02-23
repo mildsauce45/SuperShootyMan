@@ -1,9 +1,6 @@
 extends CharacterBody2D
 class_name Player
 
-const SPEED = 4500.0
-const JUMP_VELOCITY = -310.0
-
 signal Died
 
 var dashCooldown: float = 0
@@ -41,12 +38,19 @@ func _check_for_weapon_inputs():
 		animatedSpriteController.isShooting = true
 
 func _on_area_entered(area):
+	#TODO: this is becoming untenable, come up with something better
 	if area is Enemy:
 		_contact_enemy(area as Enemy)
 	elif area is DirectionChanger:
 		_direction_switch(area as DirectionChanger)
 	elif area is Checkpoint:
 		(area as Checkpoint).on_player_entered()
+	elif area is SpeedCollider:
+		(area as SpeedCollider).on_collision_enter(self)
+
+func _on_area_exited(area):
+	if area is SpeedCollider:
+		(area as SpeedCollider).on_collision_exit(self)
 
 func _contact_enemy(enemy: Enemy):
 	if !dboost.is_active():
