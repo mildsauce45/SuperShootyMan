@@ -9,7 +9,6 @@ var allowCoyoteTime: bool = false
 var equipped_weapon: Weapon = preload("res://Resources/Weapons/Buster.tres")
 
 @onready var animatedSpriteController = $AnimatedSprite2D as PlayerAnimationController
-@onready var shapeCast = $ShapeCast2D
 @onready var speedChecker = $SpeedChecker as SpeedChecker
 @onready var shootSpawn = %ShootSpawn
 @onready var health = $Health as Health
@@ -24,9 +23,6 @@ var equipped_weapon: Weapon = preload("res://Resources/Weapons/Buster.tres")
 
 func _process(_delta):
 	_check_for_weapon_inputs()
-
-func check_for_speeders():
-	speedChecker.check_for_speeders(shapeCast)
 
 func player_died():
 	Died.emit(self)

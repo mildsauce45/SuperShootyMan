@@ -15,7 +15,7 @@ func set_dash_properties():
 	player.speedChecker.add_modifier(DASHING, player.dashMultiplier)
 	
 func clear_dash_properties():
-	player.speedChecker.remove_modifer(DASHING)
+	player.speedChecker.remove_modifier(DASHING)
 	
 func reduce_dash_cooldown(isDashing: bool, delta: float):
 	if isDashing:

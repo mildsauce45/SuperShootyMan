@@ -1,4 +1,5 @@
 extends "res://Scripts/States/StateMachine.gd"
+class_name WaypointPlatformStateMachine
 
 var platform: WaypointPlatform
 

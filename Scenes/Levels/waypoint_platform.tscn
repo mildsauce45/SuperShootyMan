@@ -45,15 +45,15 @@ frame_progress = 0.94579
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Platform"]
 shape = SubResource("RectangleShape2D_syckt")
 
-[node name="Collider" type="Area2D" parent="."]
+[node name="SpeedCollider" type="Area2D" parent="."]
 collision_layer = 2
 script = ExtResource("4_epuwo")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Collider"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SpeedCollider"]
 position = Vector2(0, -5.5)
 shape = SubResource("RectangleShape2D_fqlvv")
 
-[node name="SpeedModifier" type="Node" parent="Collider"]
+[node name="SpeedModifier" type="Node" parent="SpeedCollider"]
 unique_name_in_owner = true
 script = ExtResource("4_knoj8")
 
@@ -70,5 +70,5 @@ script = ExtResource("8_cj044")
 [node name="Wait" type="Node" parent="StateMachine"]
 script = ExtResource("9_las1r")
 
-[connection signal="_speed_collider_entered" from="Collider" to="." method="_on_speed_collider_entered"]
-[connection signal="_speed_collider_exited" from="Collider" to="." method="_on_speed_collider_exited"]
+[connection signal="_speed_collider_entered" from="SpeedCollider" to="." method="_on_speed_collider_entered"]
+[connection signal="_speed_collider_exited" from="SpeedCollider" to="." method="_on_speed_collider_exited"]

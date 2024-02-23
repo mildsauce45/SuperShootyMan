@@ -8,9 +8,6 @@ func enter():
 	allowCoyoteTime = player.allowCoyoteTime
 	_coyoteTimeTimer = player.coyoteTime
 
-func update(_delta: float):
-	player.check_for_speeders()
-
 func physics_update(delta: float):
 	if player.health.is_dead():
 		return
