@@ -6,7 +6,7 @@ signal Died
 var dashCooldown: float = 0
 var allowCoyoteTime: bool = false
 
-var equipped_weapon: Weapon = preload("res://Resources/Weapons/Buster.tres")
+var inventory: Inventory = Inventory.new()
 
 @onready var animatedSpriteController = $AnimatedSprite2D as PlayerAnimationController
 @onready var speedChecker = $SpeedChecker as SpeedChecker
@@ -28,10 +28,16 @@ func player_died():
 	Died.emit(self)
 
 func _check_for_weapon_inputs():
-	if Input.is_action_just_pressed("shoot"):
+	if Input.is_action_just_pressed("shoot") and inventory.current_weapon().can_fire():
 		var projectile = _spawn_weapon_projectile()
 		get_tree().root.add_child(projectile)
 		animatedSpriteController.isShooting = true
+		inventory.current_weapon().fired()
+		inventory.fired()
+	elif Input.is_action_just_released("shift_weapon_left"):
+		inventory.swap_left()
+	elif Input.is_action_just_released("shift_weapon_right"):
+		inventory.swap_right()
 
 func _on_area_entered(area):
 	#TODO: this is becoming untenable, come up with something better
@@ -61,7 +67,7 @@ func _contact_enemy(enemy: Enemy):
 			velocity.x = dboost.baseVelocity.x * speedChecker.direction
 		
 func _spawn_weapon_projectile():
-	var projectile = equipped_weapon.projectile.instantiate()
+	var projectile = inventory.current_weapon().weaponResource.projectile.instantiate()
 	projectile.direction = speedChecker.direction
 	projectile.global_position = shootSpawn.global_position
 	return projectile

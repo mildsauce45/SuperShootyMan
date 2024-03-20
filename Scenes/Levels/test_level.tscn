@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dfjop3mkp6sfl"]
+[gd_scene load_steps=10 format=3 uid="uid://dfjop3mkp6sfl"]
 
 [ext_resource type="TileSet" uid="uid://cu8dfeq6o5smy" path="res://Resources/TileSets/test_tile_set.tres" id="1_cqbp8"]
 [ext_resource type="PackedScene" uid="uid://cdx2ggsguetjt" path="res://Scenes/Entities/player.tscn" id="4_pe5rk"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://mteotcn10e3n" path="res://Scenes/Levels/checkpoint.tscn" id="7_qp5tr"]
 [ext_resource type="Script" path="res://Scripts/Entities/LevelManager.gd" id="8_r3sob"]
 [ext_resource type="PackedScene" uid="uid://bsst8g1p1hv4g" path="res://Scenes/Levels/speed_pad.tscn" id="9_ao577"]
+[ext_resource type="PackedScene" uid="uid://b88m7b785b2k2" path="res://Scenes/UI/hud.tscn" id="9_l4txx"]
 [ext_resource type="PackedScene" uid="uid://dudbd73apxj66" path="res://Scenes/Levels/waypoint_platform.tscn" id="9_ng6fv"]
 [ext_resource type="PackedScene" uid="uid://cag2uvl4au8hl" path="res://Scenes/Entities/fan_fiend.tscn" id="10_wrxew"]
 
@@ -24,6 +25,9 @@ shouldCameraSync = true
 
 [node name="Player" parent="." groups=["Player"] instance=ExtResource("4_pe5rk")]
 position = Vector2(18, -28)
+dashMultiplier = 3.5
+dashLength = 0.2
+coyoteTime = 0.15
 
 [node name="Elements" type="Node" parent="."]
 
@@ -53,7 +57,12 @@ beltLength = 7
 [node name="FanFiend" parent="." instance=ExtResource("10_wrxew")]
 position = Vector2(294, -49)
 
-[node name="LevelManager" type="Node" parent="." node_paths=PackedStringArray("player", "levelElements")]
+[node name="LevelManager" type="Node" parent="." node_paths=PackedStringArray("player", "levelElements", "hud")]
 script = ExtResource("8_r3sob")
 player = NodePath("../Player")
 levelElements = NodePath("../Elements")
+hud = NodePath("../UIRoot/HUD")
+
+[node name="UIRoot" type="CanvasLayer" parent="."]
+
+[node name="HUD" parent="UIRoot" instance=ExtResource("9_l4txx")]

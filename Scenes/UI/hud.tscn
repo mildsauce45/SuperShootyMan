@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://b88m7b785b2k2"]
+[gd_scene load_steps=9 format=3 uid="uid://b88m7b785b2k2"]
 
-[ext_resource type="Texture2D" uid="uid://cqueil560ajkv" path="res://Assets/Sprites/Weapons/blaster-ui-icon.png" id="1_ljpfm"]
+[ext_resource type="Script" path="res://Scripts/UI/hud.gd" id="1_bk4ob"]
+[ext_resource type="Texture2D" uid="uid://dmem1ssbdewra" path="res://icon.svg" id="1_jgohs"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_vkh05"]
 font_size = 36
@@ -19,6 +20,7 @@ border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
 corner_detail = 1
 expand_margin_left = 1.0
 expand_margin_top = 1.0
@@ -52,6 +54,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_bk4ob")
 
 [node name="TimeControlMarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -93,7 +96,7 @@ layout_mode = 2
 layout_mode = 2
 theme_override_constants/margin_bottom = 15
 
-[node name="ProgressBar" type="ProgressBar" parent="PlayerInfoMarginContainer/VBoxContainer/MarginContainer"]
+[node name="PlayerHealthBar" type="ProgressBar" parent="PlayerInfoMarginContainer/VBoxContainer/MarginContainer"]
 custom_minimum_size = Vector2(200, 20)
 layout_mode = 2
 size_flags_vertical = 4
@@ -127,12 +130,14 @@ layout_mode = 2
 color = Color(0, 0, 0, 1)
 
 [node name="WeaponIcon" type="TextureRect" parent="PlayerInfoMarginContainer/VBoxContainer/WeaponBar/Weapon/EquippableWeaponIcon"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
-texture = ExtResource("1_ljpfm")
+texture = ExtResource("1_jgohs")
 stretch_mode = 4
 
 [node name="WeaponEnergy" type="ProgressBar" parent="PlayerInfoMarginContainer/VBoxContainer/WeaponBar/Weapon"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 15)
 layout_mode = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_1pjyu")

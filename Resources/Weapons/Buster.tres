@@ -9,3 +9,4 @@ script = ExtResource("1_q5ffg")
 name = "Buster Cannon"
 uiIcon = ExtResource("3_1ajdr")
 projectile = ExtResource("1_y62gb")
+energyConsumption = 0
