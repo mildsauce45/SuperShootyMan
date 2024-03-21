@@ -1,0 +1,150 @@
+[gd_scene load_steps=9 format=3 uid="uid://b88m7b785b2k2"]
+
+[ext_resource type="Script" path="res://Scripts/UI/hud.gd" id="1_bk4ob"]
+[ext_resource type="Texture2D" uid="uid://dmem1ssbdewra" path="res://icon.svg" id="1_jgohs"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_vkh05"]
+font_size = 36
+outline_size = 1
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_4gm0e"]
+font_size = 24
+font_color = Color(0.254902, 1, 0.270588, 1)
+outline_size = 1
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ys4ns"]
+bg_color = Color(0.00784314, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+corner_detail = 1
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+expand_margin_bottom = 1.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jxmkg"]
+bg_color = Color(0, 1, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1pjyu"]
+bg_color = Color(0.921569, 0.211765, 0.337255, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
+corner_detail = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6rgt8"]
+bg_color = Color(1, 1, 1, 1)
+border_color = Color(0, 1, 0.8, 0.784314)
+corner_radius_top_left = 1
+corner_radius_top_right = 1
+corner_radius_bottom_right = 1
+corner_radius_bottom_left = 1
+
+[node name="HUD" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_bk4ob")
+
+[node name="TimeControlMarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 20
+
+[node name="TimeControl" type="VBoxContainer" parent="TimeControlMarginContainer"]
+layout_mode = 2
+
+[node name="TimeIndicator" type="Label" parent="TimeControlMarginContainer/TimeControl"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+text = "1:37"
+label_settings = SubResource("LabelSettings_vkh05")
+
+[node name="PBIndicator" type="Label" parent="TimeControlMarginContainer/TimeControl"]
+layout_mode = 2
+text = "PB: N/A"
+label_settings = SubResource("LabelSettings_4gm0e")
+
+[node name="PlayerInfoMarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PlayerInfoMarginContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PlayerInfoMarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_bottom = 15
+
+[node name="PlayerHealthBar" type="ProgressBar" parent="PlayerInfoMarginContainer/VBoxContainer/MarginContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 20)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/background = SubResource("StyleBoxFlat_ys4ns")
+theme_override_styles/fill = SubResource("StyleBoxFlat_jxmkg")
+max_value = 28.0
+step = 1.0
+value = 25.0
+show_percentage = false
+
+[node name="WeaponBar" type="HBoxContainer" parent="PlayerInfoMarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+
+[node name="Weapon" type="VBoxContainer" parent="PlayerInfoMarginContainer/VBoxContainer/WeaponBar"]
+layout_mode = 2
+
+[node name="EquippableWeaponIcon" type="CenterContainer" parent="PlayerInfoMarginContainer/VBoxContainer/WeaponBar/Weapon"]
+layout_mode = 2
+
+[node name="SelectedOutline" type="ColorRect" parent="PlayerInfoMarginContainer/VBoxContainer/WeaponBar/Weapon/EquippableWeaponIcon"]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="BackgroundFill" type="ColorRect" parent="PlayerInfoMarginContainer/VBoxContainer/WeaponBar/Weapon/EquippableWeaponIcon"]
+custom_minimum_size = Vector2(66, 66)
+layout_mode = 2
+color = Color(0, 0, 0, 1)
+
+[node name="WeaponIcon" type="TextureRect" parent="PlayerInfoMarginContainer/VBoxContainer/WeaponBar/Weapon/EquippableWeaponIcon"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture = ExtResource("1_jgohs")
+stretch_mode = 4
+
+[node name="WeaponEnergy" type="ProgressBar" parent="PlayerInfoMarginContainer/VBoxContainer/WeaponBar/Weapon"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_1pjyu")
+theme_override_styles/fill = SubResource("StyleBoxFlat_6rgt8")
+max_value = 30.0
+step = 1.0
+value = 20.0
+show_percentage = false
